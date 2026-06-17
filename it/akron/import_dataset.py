@@ -1,5 +1,4 @@
 from flask import Blueprint, request, jsonify
-import uuid
 
 from src import DataLoader
 
@@ -12,7 +11,7 @@ def load_dataset():
 
     Body JSON:
     {
-        "file_path": "data/seeds_dataset.txt"
+        "file_path": "iris_nuovo.CSV"
     }
     """
 
@@ -34,18 +33,15 @@ def load_dataset():
 
         loader = DataLoader()
 
-        X, y = loader.load_seeds_dataset(file_path)
+        X = loader.load_csv(file_path)
 
-        pipeline_id = str(uuid.uuid4())
 
         return jsonify(
             {
                 "message": "Dataset loaded successfully",
-                "pipeline_id": pipeline_id,
                 "n_samples": X.shape[0],
                 "n_features": X.shape[1],
                 "features": list(X.columns),
-                "target": y.columns[0]
             }
         )
 

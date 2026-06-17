@@ -54,7 +54,7 @@ class DataLoader:
         """
         try:
             logger.info(f"Loading CSV from: {filepath}")
-            self.df = pd.read_csv(filepath, **kwargs)
+            self.df = pd.read_csv(filepath, **kwargs, sep=";")
             self.filepath = filepath
             self._update_metadata()
             logger.info(f"Successfully loaded {len(self.df)} rows from {filepath}")
