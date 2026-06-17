@@ -1,11 +1,11 @@
-from flask import Flask, request, jsonify
+from flask import Flask, Blueprint, request, jsonify
 import numpy as np
 
 from src.splitter import DatasetSplitter
 
 splitter_bp = Blueprint("splitter", __name__)
 
-@app.route("/split", methods=["POST"])
+@splitter_bp.route("/split", methods=["POST"])
 def split_dataset():
 
     data = request.get_json()
@@ -33,7 +33,3 @@ def split_dataset():
     }
 
     return jsonify(response)
-
-
-if __name__ == "__main__":
-    app.run(debug=True)

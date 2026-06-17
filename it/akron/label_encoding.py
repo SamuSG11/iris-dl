@@ -2,7 +2,6 @@ from flask import Blueprint, request, jsonify
 import numpy as np
 
 from src.encoding import TargetOHE
-from splitter import DatasetSplitter
 
 encoding_bp = Blueprint("encoding", __name__)
 
@@ -35,6 +34,3 @@ def one_hot_encode_target():
 
     except Exception as e:
         return jsonify({"error": str(e)}), 500
-
-if __name__ == "__main__":
-    app.run(debug=True)
