@@ -1,9 +1,9 @@
 from flask import Flask
 
 from it.akron.import_dataset import loader_bp
-from it.akron.scaling import scaling_bp
-from it.akron.splitter import splitter_bp
 from it.akron.label_encoding import encoding_bp
+from it.akron.splitter import splitter_bp
+from it.akron.scaling import scaling_bp
 from it.akron.build_model import train_bp
 
 

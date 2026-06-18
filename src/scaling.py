@@ -1,5 +1,8 @@
 import pandas as pd
 from typing import List, Optional
+
+from sklearn.preprocessing import StandardScaler
+
 from lib.encoder import GenericEncoder
 from src.utils import get_logger, PreprocessingError
 

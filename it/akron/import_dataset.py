@@ -48,13 +48,15 @@ def load_dataset():
 
         X = df.drop(columns=[target_col])
         y = df[target_col]
-
+        print(df.head)
         return jsonify({
             "message": "Dataset loaded successfully",
             "n_samples": df.shape[0],
             "n_features": X.shape[1],
             "features": list(X.columns),
-            "target": target_col
+            "target": target_col,
+            "X": X.values.tolist(),
+            "y": y.values.tolist()
         })
 
     except Exception as e:

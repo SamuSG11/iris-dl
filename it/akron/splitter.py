@@ -10,13 +10,25 @@ def split_dataset():
 
     data = request.get_json()
 
+    print("JSON ricevuto:")
+    print(data)
+
+    print("X presente?", "X" in data if data else False)
+    print("y presente?", "y" in data if data else False)
+
     # 1. prendo X e y dal JSON
     X = np.array(data.get("X"))
-    y = np.array(data.get("y"))
+    y = data.get("y_encoded")
+    y = np.array(y)
 
     # 2. controllo base
     if X is None or y is None:
         return jsonify({"error": "X e y sono obbligatori"}), 400
+
+    print("X:", type(X), X is None)
+    print("y:", type(y), y is None)
+    print("X shape:", getattr(X, "shape", None))
+    print("y shape:", getattr(y, "shape", None))
 
     # 3. split
     splitter = DatasetSplitter()
