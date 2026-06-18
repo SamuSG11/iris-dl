@@ -1,6 +1,7 @@
 from flask import Blueprint, request, jsonify
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense
+from tensorflow.keras.callbacks import EarlyStopping
 import numpy as np
 
 train_bp = Blueprint("train", __name__)
@@ -47,7 +48,7 @@ def train_adam():
         if not data:
             return jsonify({"error": "No JSON body provided"}), 400
 
-        # 🔥 load dataset in modo sicuro
+        # load dataset in modo sicuro
         X_train = safe_array(data, "X_train")
         X_val   = safe_array(data, "X_val")
         X_test  = safe_array(data, "X_test")
@@ -56,37 +57,51 @@ def train_adam():
         y_val   = safe_array(data, "y_val")
         y_test  = safe_array(data, "y_test")
 
-        # 🔴 sanity check shapes
+        # sanity check shapes
         if X_train.shape[0] != y_train.shape[0]:
             return jsonify({"error": "X_train and y_train size mismatch"}), 400
 
-        # 🔵 model
+        # model
         model = build_model(X_train.shape[1])
 
         model.compile(
             optimizer="adam",
-            loss="sparse_categorical_crossentropy",
+            loss="categorical_crossentropy",
             metrics=["accuracy"]
         )
 
-        # 🔵 train
+        early_stop = EarlyStopping(
+            monitor="val_loss",
+            patience=5,
+            restore_best_weights=True
+        )
+
+        # train
         history = model.fit(
             X_train, y_train,
             epochs=30,
             batch_size=16,
             validation_data=(X_val, y_val),
-            verbose=0
+            verbose=0,
+            callbacks=[early_stop]
         )
 
-        # 🔵 evaluate
+        # evaluate
         loss, acc = model.evaluate(X_test, y_test, verbose=0)
+
+        best_epoch = np.argmin(history.history["val_loss"])
 
         return jsonify({
             "optimizer": "adam",
+            "epochs_run": len(history.history["loss"]),
+            "best_epoch": int(best_epoch+1),
             "test_accuracy": float(acc),
             "test_loss": float(loss),
-            "train_acc": float(history.history["accuracy"][-1]),
-            "val_acc": float(history.history["val_accuracy"][-1])
+            "train_acc": float(history.history["accuracy"][best_epoch]),
+            "val_acc": float(history.history["val_accuracy"][best_epoch]),
+            "overfitting_gap": float(
+                history.history["accuracy"][best_epoch] - history.history["val_accuracy"][best_epoch]   
+            )
         })
 
     except KeyError as e:

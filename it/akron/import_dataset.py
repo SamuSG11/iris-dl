@@ -12,7 +12,7 @@ def load_dataset():
 
     Body JSON:
     {
-        "file_path": "iris.csv",
+        "file_path": "iris_nuovo.csv",
         "target": "Species"
     }
     """
