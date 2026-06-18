@@ -9,8 +9,7 @@ def intro():
         <h1>--- BENVENUTO NELL'API RETI NEURALI ---</h1>
 
         <p>
-            REST API per l'analisi del dataset Iris e la divisione
-            dei vari semi in clusters attraverso l'uso delle RN
+            REST API per l'analisi del dataset Iris attraverso l'uso delle RN
         </p>
 
         <h2>CARICAMENTO DEL DATASET:</h2>
@@ -18,8 +17,8 @@ def intro():
         <h3>Dataset load</h3>
         <ul>
             <li>POST /load
-            <li> inserire come body il json:</li>
-            <li> {"file_path": "iris_nuovo.csv", "target": "Species"}</li>
+            <p> inserire come body il json:</p>
+            <p> {"file_path": "iris_nuovo.csv", "target": "Species"}</p>
         </ul>
 
         <h2>PULIZIA DEL DATASET:</h2>
@@ -29,16 +28,16 @@ def intro():
             <li>POST /encode</li>
             <li>POST /split</li>
             <li>POST /scale</li>
-            <li></li>
-            <li>in ogni endpoint inserire l'output di quello prima</li>
+            <p></p>
+            <p>in ogni endpoint inserire l'output di quello prima</p>
         </ul>
         
         <h2>RETE NEURALE:</h2>
 
-        <h3>build model h1=16 e h2=8 e settata su Adam con 30 epochs</h3>
+        <p>build model h1=16 e h2=8 e settata su Adam con 30 epochs</p>
         <ul>
             <li>POST /train/adam</li>
-            <li>passandogli in input il risultato di scale</li>
+            <p>passandogli in input il risultato di scale</p>
         </ul>
 
         """
