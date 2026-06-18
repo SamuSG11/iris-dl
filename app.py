@@ -1,5 +1,6 @@
 from flask import Flask
 
+from it.akron.home import home_bp
 from it.akron.import_dataset import loader_bp
 from it.akron.label_encoding import encoding_bp
 from it.akron.splitter import splitter_bp
@@ -8,6 +9,7 @@ from it.akron.build_model import train_bp
 
 
 app = Flask(__name__)
+app.register_blueprint(home_bp)
 app.register_blueprint(loader_bp)
 app.register_blueprint(scaling_bp)
 app.register_blueprint(splitter_bp)
